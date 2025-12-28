@@ -11,8 +11,7 @@ import { postTweet, verifyCredentials } from "./twitter-client.js";
 config();
 
 // Format time in IST
-const formatIST = (date = new Date()) =>
-  date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+const formatIST = (date = new Date()) => date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
 
 async function main() {
   console.log("\n" + "=".repeat(50));
@@ -58,4 +57,3 @@ main().catch((error) => {
   console.error("❌ Fatal error:", error.message);
   process.exit(1);
 });
-
