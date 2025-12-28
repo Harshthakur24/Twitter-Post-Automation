@@ -16,12 +16,16 @@ COPY *.js ./
 # Create volume mount points for persistent data
 VOLUME ["/app/data"]
 
-# Set environment variable for data directory
+# Set environment variables
 ENV DATA_DIR=/app/data
+ENV PORT=3000
 
-# Health check
+# Expose port for Render web service
+EXPOSE 3000
+
+# Health check via HTTP endpoint
 HEALTHCHECK --interval=5m --timeout=10s --start-period=30s \
-  CMD node -e "console.log('healthy')" || exit 1
+  CMD wget --no-verbose --tries=1 --spider http://localhost:3000/ || exit 1
 
 # Run the application
 CMD ["node", "index.js"]

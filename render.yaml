@@ -1,8 +1,8 @@
-# Render Blueprint - Docker Deployment
+# Render Blueprint - Docker Deployment (Free Tier Web Service)
 # Deploy with "New > Blueprint" on render.com
 
 services:
-  - type: worker
+  - type: web
     name: twitter-autoposter
     runtime: docker
     plan: free

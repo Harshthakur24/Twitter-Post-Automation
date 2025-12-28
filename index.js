@@ -1,4 +1,5 @@
 import { config } from "dotenv";
+import http from "http";
 import { generateTweet, saveToHistory } from "./tweet-generator.js";
 import { postTweet, verifyCredentials } from "./twitter-client.js";
 import {
@@ -9,6 +10,28 @@ import {
 } from "./scheduler.js";
 
 config();
+
+// Health server for Render free tier (Web Service requires a port)
+const PORT = process.env.PORT || 3000;
+http
+  .createServer((req, res) => {
+    const status = getScheduleStatus();
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(
+      JSON.stringify({
+        status: "running",
+        service: "Twitter Auto-Poster",
+        postCount: status.postCount || 0,
+        nextPost: status.nextScheduledFormatted,
+        timeUntil: status.timeUntil.ready
+          ? "Ready to post!"
+          : `${status.timeUntil.hours}h ${status.timeUntil.minutes}m`,
+      })
+    );
+  })
+  .listen(PORT, () => {
+    console.log(`🌐 Health server running on port ${PORT}`);
+  });
 
 // Check interval: every 5 minutes
 const CHECK_INTERVAL = 5 * 60 * 1000;
