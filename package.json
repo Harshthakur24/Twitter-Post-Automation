@@ -1,0 +1,19 @@
+{
+  "name": "twitter-automation",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Automated Twitter posting for CS student vibes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "post-now": "node post-now.js",
+    "test-generate": "node test-generate.js"
+  },
+  "dependencies": {
+    "@google/genai": "^0.7.0",
+    "dotenv": "^16.4.7",
+    "node-cron": "^3.0.3",
+    "twitter-api-v2": "^1.22.0"
+  }
+}
+

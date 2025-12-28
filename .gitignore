@@ -1,0 +1,5 @@
+node_modules
+.env
+tweet-history.json
+schedule-state.json
+data/

@@ -1,0 +1,26 @@
+# Render Blueprint - Deploy with "New > Blueprint" on render.com
+# Or manually create a Background Worker with these settings
+
+services:
+  - type: worker
+    name: twitter-autoposter
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: automation
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: TWITTER_API_KEY
+        sync: false
+      - key: TWITTER_API_SECRET
+        sync: false
+      - key: TWITTER_ACCESS_TOKEN
+        sync: false
+      - key: TWITTER_ACCESS_TOKEN_SECRET
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: NODE_ENV
+        value: production
+
