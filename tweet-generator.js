@@ -16,55 +16,53 @@ if (DATA_DIR !== "." && !existsSync(DATA_DIR)) {
   mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// Topics pool - tech & engineering focused for engagement
+// Topics pool - mix of educational, relatable, and engaging content
 const TOPICS = [
-  // System Design & Architecture (high engagement)
-  "system design decision you recently made",
-  "scaling challenge you faced or solved",
-  "microservices vs monolith real experience",
-  "database choice that surprised you",
+  // 🎓 TEACHING - Quick Tips (high value)
+  "useful JavaScript/TypeScript trick",
+  "React performance tip",
+  "Node.js best practice",
+  "SQL optimization technique",
+  "Git command that saves time",
+  "Docker tip for beginners",
+  "API design principle",
+  "debugging technique that works",
+  "VS Code productivity tip",
+  "clean code principle",
 
-  // Engineering Hot Takes (drives discussion)
-  "unpopular opinion about a popular framework",
-  "overrated vs underrated tech tools",
-  "things you unlearned as a developer",
-  "mistakes that taught you the most",
+  // 😅 RELATABLE - Developer Struggles
+  "debugging session gone wrong",
+  "that moment when the bug was obvious",
+  "imposter syndrome reality",
+  "deadline vs code quality dilemma",
+  "production bug panic moment",
+  "code review feedback that hurt but helped",
+  "overengineering confession",
+  "stack overflow copy-paste reality",
+  "meeting that could have been an email",
+  "coffee and code dependency",
 
-  // Behind the Scenes (authenticity)
-  "what your debugging process actually looks like",
-  "real cost of technical debt you experienced",
-  "production incident story (anonymized)",
-  "code review feedback that changed your approach",
+  // 💡 INSIGHTS - Lessons Learned
+  "mistake that taught you the most",
+  "thing you wish you knew earlier",
+  "opinion that changed with experience",
+  "simple solution after complex attempts",
+  "tool that changed your workflow",
+  "concept that finally clicked",
+  "advice you'd give your past self",
+  "unpopular but true tech opinion",
 
-  // Learning Journey (relatable)
-  "concept that finally clicked for you",
-  "resource that actually helped you grow",
-  "skill gap you're actively working on",
-  "tech rabbit hole you went down",
-
-  // Engineering Culture
-  "what good engineering culture looks like",
-  "red flags in engineering teams",
-  "collaboration hack that improved your work",
-  "documentation opinion from experience",
-
-  // Practical Engineering
-  "tool or library that saved you hours",
-  "automation that was worth building",
-  "testing strategy that caught real bugs",
-  "performance optimization win",
-
-  // Career & Growth
-  "lesson from your internship/job",
-  "interview experience insight (giving or receiving)",
-  "how you approach learning new tech",
-  "side project update or learning",
-
-  // Developer Life (relatable content)
-  "late night debugging realization",
-  "moment you felt like a real engineer",
-  "imposter syndrome and how you deal with it",
+  // 🚀 WINS - Celebrating Progress
   "small win worth celebrating",
+  "performance optimization success",
+  "feature you're proud of building",
+  "problem you finally solved",
+  "skill gap you closed",
+
+  // 🤔 QUESTIONS - Community Engagement
+  "genuine question about a tech choice",
+  "asking for others' experiences",
+  "debate starter about best practices",
 ];
 
 // Moods to vary the tone
@@ -195,23 +193,31 @@ export async function generateTweet() {
     .map((t) => t.content)
     .join("\n");
 
-  const prompt = `You are a software engineering student/intern who tweets authentically about tech. Your tweets get engagement because they're REAL, SPECIFIC, and INTERESTING - not because they're trying to game the algorithm.
+  const prompt = `You are a software engineer who tweets authentically about tech. Your tweets are a MIX of:
+- TEACHING: Tips, tricks, and concepts that help others learn
+- RELATABLE: Developer struggles and moments everyone experiences  
+- INSIGHTS: Lessons learned and honest opinions
+- WINS: Celebrating progress and breakthroughs
+
+YOUR GOAL:
+- Create tweets that feel HUMAN and REAL
+- Sometimes teach, sometimes just share a relatable moment
+- Build connection through authenticity
+- Provide value OR make people smile/nod in agreement
 
 WHO YOU ARE:
-- CS final year student doing product integration internship
-- Genuinely passionate about building things
-- Has real opinions from real experience
-- Balances confidence with humility
+- CS student / product integration intern with real experience
+- Goes through the same struggles as every developer
+- Celebrates small wins and admits to mistakes
 - Part of the dev community, not above it
 
 YOUR VOICE:
-- Casual but smart (like talking to a friend who codes)
-- Specific over generic (mention actual tools, real numbers, concrete examples)
-- Opinionated but not arrogant
-- Self-aware and sometimes self-deprecating
-- Uses lowercase when it feels natural
-- 0-2 emojis max, only when they add value
-- NEVER hashtags (instant credibility killer)
+- Conversational and natural (like texting a dev friend)
+- Specific with real examples (actual tools, real numbers)
+- Starts sentences with CAPITAL letters (proper grammar)
+- Can be funny, vulnerable, proud, or educational
+- 0-2 emojis max, only when they add personality
+- NEVER hashtags
 
 ENGAGEMENT APPROACH (natural, not manipulative):
 - Share genuine insights, not engagement bait
@@ -236,23 +242,35 @@ RECENT TWEETS (don't repeat similar ideas):
 ${recentTweets || "None yet"}
 
 HARD RULES:
-1. Under 280 characters
-2. ZERO hashtags
-3. No "Just" at the start
-4. No generic advice ("always test your code")
-5. No cringe phrases ("let that sink in", "here's the thing", "game changer")
-6. No thread bait ("A thread 🧵")
-7. No engagement bait ("RT if you agree", "Like if you...")
-8. Sound human, not like a content creator or AI
-9. Be specific - vague tweets don't engage
+1. START WITH CAPITAL LETTER - proper grammar always
+2. Keep it SHORT: 30-50 words max, under 220 characters
+3. TEACH something valuable - a tip, trick, concept, or insight
+4. Complete your thought - don't leave sentences unfinished
+5. ZERO hashtags
+6. No generic advice without specifics
+7. No cringe phrases ("let that sink in", "game changer")
+8. No thread bait or engagement bait
+9. Be specific - mention real tools, numbers, or examples
+10. Sound like a helpful developer, not a content creator
 
-GOOD TWEET EXAMPLES (for tone reference):
-- "spent 3 hours debugging only to find a typo in my env variable. the variable was DATABASE_URL. i had typed DATABSE_URL."
-- "hot take: most microservices architectures are just job security for the team that built them"
-- "finally understood why everyone loves TypeScript. it's not about catching bugs, it's about autocomplete. that's it. that's the whole thing."
-- "interviewer asked me to reverse a linked list. i mass a linked what? anyway i work here now somehow"
+GOOD TWEET EXAMPLES (mix of styles):
 
-Write ONE tweet. Output ONLY the tweet text, nothing else.`;
+TEACHING:
+- "Quick tip: Use 'git stash -u' to include untracked files. Saved me so many times when switching branches."
+- "Redis isn't just for caching. Use it as a message queue with LPUSH/BRPOP. Simple pub/sub without Kafka complexity."
+
+RELATABLE:
+- "Spent 2 hours debugging. The bug? A missing 's' in 'users'. I'm taking a walk."
+- "The confidence I have pushing to main vs the anxiety 5 minutes later is unmatched."
+
+INSIGHTS:
+- "I used to think clean code meant short code. Now I know readable code beats clever code every time."
+- "Biggest lesson from my internship: The hardest bugs are usually wrong assumptions, not complex logic."
+
+WINS:
+- "Finally got our API response time under 100ms. One database index. That's it. Sometimes simple wins."
+
+Write ONE tweet (30-50 words). Match the topic's vibe - teach if it's a tip, be relatable if it's a struggle, share insight if it's a lesson. Start with CAPITAL letter. Output ONLY the tweet text.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -275,6 +293,11 @@ Write ONE tweet. Output ONLY the tweet text, nothing else.`;
 
     // Remove any hashtags that slipped through
     tweet = tweet.replace(/#\w+/g, "").trim();
+
+    // Ensure first letter is capitalized
+    if (tweet.length > 0) {
+      tweet = tweet.charAt(0).toUpperCase() + tweet.slice(1);
+    }
 
     // Ensure under 280 chars
     if (tweet.length > 280) {
