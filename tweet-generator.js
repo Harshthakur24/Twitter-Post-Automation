@@ -16,53 +16,73 @@ if (DATA_DIR !== "." && !existsSync(DATA_DIR)) {
   mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// Topics pool - mix of educational, relatable, and engaging content
+// Topics pool - 70% TEACHING, 30% relatable/insights
 const TOPICS = [
-  // 🎓 TEACHING - Quick Tips (high value)
-  "useful JavaScript/TypeScript trick",
-  "React performance tip",
-  "Node.js best practice",
-  "SQL optimization technique",
-  "Git command that saves time",
-  "Docker tip for beginners",
-  "API design principle",
+  // 🎓 JAVASCRIPT/TYPESCRIPT TIPS
+  "JavaScript array method most devs don't use",
+  "TypeScript utility type that saves time",
+  "async/await pattern for cleaner code",
+  "ES6+ feature that improves readability",
+  "JavaScript error handling best practice",
+
+  // ⚛️ REACT/FRONTEND TIPS
+  "React hook pattern for better performance",
+  "React state management tip",
+  "Next.js optimization technique",
+  "CSS trick for common UI problems",
+  "frontend performance tip",
+
+  // 🟢 NODE.JS/BACKEND TIPS
+  "Node.js performance optimization",
+  "Express middleware best practice",
+  "API endpoint design tip",
+  "backend error handling pattern",
+  "server-side caching strategy",
+
+  // 🗄️ DATABASE TIPS
+  "SQL query optimization technique",
+  "PostgreSQL feature worth knowing",
+  "MongoDB indexing tip",
+  "database connection pooling lesson",
+  "data modeling best practice",
+
+  // 🐳 DEVOPS/DEPLOYMENT TIPS
+  "Docker command that saves time",
+  "CI/CD pipeline optimization",
+  "Vercel or cloud deployment tip",
+  "environment variable management",
+  "logging best practice for debugging",
+
+  // 🔧 TOOLS & PRODUCTIVITY
+  "Git command most devs don't know",
+  "VS Code shortcut or extension tip",
+  "terminal productivity hack",
   "debugging technique that works",
-  "VS Code productivity tip",
-  "clean code principle",
+  "AI tool (Copilot/Claude) usage tip",
 
-  // 😅 RELATABLE - Developer Struggles
-  "debugging session gone wrong",
-  "that moment when the bug was obvious",
-  "imposter syndrome reality",
-  "deadline vs code quality dilemma",
-  "production bug panic moment",
-  "code review feedback that hurt but helped",
-  "overengineering confession",
-  "stack overflow copy-paste reality",
-  "meeting that could have been an email",
-  "coffee and code dependency",
+  // 🔗 API & INTEGRATION TIPS
+  "REST API design principle",
+  "webhook implementation tip",
+  "OAuth integration lesson",
+  "third-party API error handling",
+  "API rate limiting strategy",
 
-  // 💡 INSIGHTS - Lessons Learned
-  "mistake that taught you the most",
-  "thing you wish you knew earlier",
-  "opinion that changed with experience",
-  "simple solution after complex attempts",
-  "tool that changed your workflow",
-  "concept that finally clicked",
-  "advice you'd give your past self",
-  "unpopular but true tech opinion",
+  // 📊 PRODUCT & MANAGEMENT LESSONS
+  "technical debt management insight",
+  "estimating dev time accurately",
+  "communicating with non-tech stakeholders",
+  "prioritizing features as a developer",
+  "shipping MVP mindset",
 
-  // 🚀 WINS - Celebrating Progress
-  "small win worth celebrating",
-  "performance optimization success",
-  "feature you're proud of building",
-  "problem you finally solved",
-  "skill gap you closed",
+  // 💡 LESSONS LEARNED (teaching through experience)
+  "mistake that taught you something valuable",
+  "thing you wish you knew as a beginner",
+  "concept that finally made sense",
+  "simple solution after overcomplicating",
 
-  // 🤔 QUESTIONS - Community Engagement
-  "genuine question about a tech choice",
-  "asking for others' experiences",
-  "debate starter about best practices",
+  // 😅 RELATABLE (occasionally, for engagement)
+  "debugging realization moment",
+  "late night coding insight",
 ];
 
 // Moods to vary the tone
@@ -105,18 +125,18 @@ const STYLES = [
   "honest admission that humanizes you",
 ];
 
-// Engagement hooks - natural conversation starters
+// Engagement hooks - natural human conversation starters
 const HOOKS = [
-  "start with a bold statement then explain",
-  "start with 'I used to think X, now I think Y'",
-  "start with a specific number or stat",
-  "start mid-thought like continuing a conversation",
-  "start with 'Hot take:' or 'Unpopular opinion:'",
-  "start with a contradiction or unexpected combo",
-  "start with 'TIL' or 'Today I learned'",
-  "start with a question (not rhetorical)",
-  "start with 'The thing about X is...'",
-  "start with a direct statement of opinion",
+  "start mid-sentence like you're continuing a thought",
+  "start with a realization you just had",
+  "start with a specific number or time spent",
+  "start with a confession or admission",
+  "start with something you just learned",
+  "start with a question you genuinely wonder",
+  "start with a comparison between two things",
+  "start with a situation everyone relates to",
+  "start casually like texting a friend",
+  "start with what you're currently doing/building",
 ];
 
 // Time-based context
@@ -193,30 +213,33 @@ export async function generateTweet() {
     .map((t) => t.content)
     .join("\n");
 
-  const prompt = `You are a software engineer who tweets authentically about tech. Your tweets are a MIX of:
-- TEACHING: Tips, tricks, and concepts that help others learn
-- RELATABLE: Developer struggles and moments everyone experiences  
-- INSIGHTS: Lessons learned and honest opinions
-- WINS: Celebrating progress and breakthroughs
+  const prompt = `You are a software engineer who TEACHES valuable tech knowledge through tweets. Your main goal is to help developers LEARN something useful in every tweet.
 
 YOUR GOAL:
-- Create tweets that feel HUMAN and REAL
-- Sometimes teach, sometimes just share a relatable moment
-- Build connection through authenticity
-- Provide value OR make people smile/nod in agreement
+- TEACH something specific and actionable in most tweets
+- Share real tips, tricks, patterns, and best practices
+- Help developers become better at their craft
+- Occasionally share relatable moments (but mostly teach)
+
+WHAT TO TEACH:
+- Specific code patterns or techniques
+- Tool tips and shortcuts
+- Best practices with real examples
+- Lessons from real experience
+- Concepts explained simply
 
 WHO YOU ARE:
-- CS student / product integration intern with real experience
-- Goes through the same struggles as every developer
-- Celebrates small wins and admits to mistakes
-- Part of the dev community, not above it
+- CS student / product integration intern with hands-on experience
+- Learn something new every day and share it
+- Passionate about helping others grow
+- Part of the dev community, always learning
 
 YOUR VOICE:
-- Conversational and natural (like texting a dev friend)
-- Specific with real examples (actual tools, real numbers)
+- Clear and educational but not boring
+- Specific with real examples (actual code, tools, numbers)
 - Starts sentences with CAPITAL letters (proper grammar)
-- Can be funny, vulnerable, proud, or educational
-- 0-2 emojis max, only when they add personality
+- Friendly teacher vibe, not lecturing
+- 0-2 emojis max, only when they add value
 - NEVER hashtags
 
 ENGAGEMENT APPROACH (natural, not manipulative):
@@ -242,35 +265,31 @@ RECENT TWEETS (don't repeat similar ideas):
 ${recentTweets || "None yet"}
 
 HARD RULES:
-1. START WITH CAPITAL LETTER - proper grammar always
+1. START WITH CAPITAL LETTER - proper grammar
 2. Keep it SHORT: 30-50 words max, under 220 characters
-3. TEACH something valuable - a tip, trick, concept, or insight
-4. Complete your thought - don't leave sentences unfinished
-5. ZERO hashtags
-6. No generic advice without specifics
-7. No cringe phrases ("let that sink in", "game changer")
-8. No thread bait or engagement bait
-9. Be specific - mention real tools, numbers, or examples
-10. Sound like a helpful developer, not a content creator
+3. Complete your thought - no unfinished sentences
+4. ZERO hashtags
+5. Sound like a REAL PERSON texting a friend, not a content creator
+6. Use MODERN references (ChatGPT, Copilot, Cursor, Claude, Vercel - NOT Stack Overflow)
+7. No cringe phrases ("let that sink in", "game changer", "here's the thing")
+8. NO formulaic starts like "Unpopular opinion:" or "Hot take:" - just say it naturally
+9. Be specific - real tools, real numbers, real situations
 
-GOOD TWEET EXAMPLES (mix of styles):
+BAD TWEETS (never do this):
+- "Unpopular opinion: Monoliths are better" ❌ formulaic, not teaching
+- "Hot take: TypeScript is overrated" ❌ opinion without value
+- "Stack Overflow saved me again" ❌ outdated, not specific
 
-TEACHING:
-- "Quick tip: Use 'git stash -u' to include untracked files. Saved me so many times when switching branches."
-- "Redis isn't just for caching. Use it as a message queue with LPUSH/BRPOP. Simple pub/sub without Kafka complexity."
+GOOD TEACHING TWEETS (specific, actionable, valuable):
+- "Use Promise.allSettled() instead of Promise.all() when you need all results even if some fail. Saved me from silent failures in API calls."
+- "PostgreSQL tip: Add 'EXPLAIN ANALYZE' before your query to see exactly where it's slow. Found a missing index in 2 minutes."
+- "React re-rendering too much? Wrap your context value in useMemo(). Cut our re-renders by 70% with one change."
+- "Git tip: 'git stash -p' lets you stash specific chunks, not everything. Game changer for messy work-in-progress."
+- "Node.js: Use 'node --inspect' to debug with Chrome DevTools. Way better than console.log everywhere."
+- "TypeScript: Use 'satisfies' keyword to validate types without widening. Keeps autocomplete working perfectly."
+- "Docker tip: Multi-stage builds can cut your image size by 80%. First stage builds, second stage runs."
 
-RELATABLE:
-- "Spent 2 hours debugging. The bug? A missing 's' in 'users'. I'm taking a walk."
-- "The confidence I have pushing to main vs the anxiety 5 minutes later is unmatched."
-
-INSIGHTS:
-- "I used to think clean code meant short code. Now I know readable code beats clever code every time."
-- "Biggest lesson from my internship: The hardest bugs are usually wrong assumptions, not complex logic."
-
-WINS:
-- "Finally got our API response time under 100ms. One database index. That's it. Sometimes simple wins."
-
-Write ONE tweet (30-50 words). Match the topic's vibe - teach if it's a tip, be relatable if it's a struggle, share insight if it's a lesson. Start with CAPITAL letter. Output ONLY the tweet text.`;
+Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Include a real tip, pattern, or technique. Start with CAPITAL letter. Output ONLY the tweet.`;
 
   try {
     const response = await ai.models.generateContent({
