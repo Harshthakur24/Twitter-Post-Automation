@@ -16,66 +16,109 @@ if (DATA_DIR !== "." && !existsSync(DATA_DIR)) {
   mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// Topics pool - rotates naturally
+// Topics pool - tech & engineering focused for engagement
 const TOPICS = [
-  "full stack development tips and struggles",
-  "product integration work and learnings",
-  "automation ideas and hacks",
-  "AI and machine learning thoughts",
-  "DevOps and deployment experiences",
-  "internship life and experiences",
-  "coding late night sessions",
-  "debugging horror stories",
-  "tech stack choices and opinions",
-  "open source contributions",
-  "side project updates",
-  "interview prep and job hunting",
-  "college final year struggles",
-  "hackathon experiences",
-  "learning new frameworks",
-  "API integration challenges",
-  "database optimization learnings",
-  "cloud services experiences",
-  "Docker and containerization",
-  "CI/CD pipeline setups",
-  "code review learnings",
-  "pair programming experiences",
-  "tech Twitter observations",
-  "productivity tips for devs",
-  "imposter syndrome feelings",
-  "celebrating small wins",
-  "tech industry news reactions",
-  "weekend coding sessions",
-  "coffee and code life",
-  "remote work experiences"
+  // System Design & Architecture (high engagement)
+  "system design decision you recently made",
+  "scaling challenge you faced or solved",
+  "microservices vs monolith real experience",
+  "database choice that surprised you",
+  
+  // Engineering Hot Takes (drives discussion)
+  "unpopular opinion about a popular framework",
+  "overrated vs underrated tech tools",
+  "things you unlearned as a developer",
+  "mistakes that taught you the most",
+  
+  // Behind the Scenes (authenticity)
+  "what your debugging process actually looks like",
+  "real cost of technical debt you experienced",
+  "production incident story (anonymized)",
+  "code review feedback that changed your approach",
+  
+  // Learning Journey (relatable)
+  "concept that finally clicked for you",
+  "resource that actually helped you grow",
+  "skill gap you're actively working on",
+  "tech rabbit hole you went down",
+  
+  // Engineering Culture
+  "what good engineering culture looks like",
+  "red flags in engineering teams",
+  "collaboration hack that improved your work",
+  "documentation opinion from experience",
+  
+  // Practical Engineering
+  "tool or library that saved you hours",
+  "automation that was worth building",
+  "testing strategy that caught real bugs",
+  "performance optimization win",
+  
+  // Career & Growth
+  "lesson from your internship/job",
+  "interview experience insight (giving or receiving)",
+  "how you approach learning new tech",
+  "side project update or learning",
+  
+  // Developer Life (relatable content)
+  "late night debugging realization",
+  "moment you felt like a real engineer",
+  "imposter syndrome and how you deal with it",
+  "small win worth celebrating"
 ];
 
 // Moods to vary the tone
 const MOODS = [
-  "excited and enthusiastic",
-  "reflective and thoughtful", 
-  "slightly frustrated but learning",
-  "proud of recent achievement",
-  "curious and exploring",
-  "tired but motivated",
-  "humorous and light",
-  "serious and professional",
-  "grateful and appreciative",
-  "determined and focused"
+  "genuinely excited about a discovery",
+  "thoughtful after learning something",
+  "mildly frustrated but finding humor in it",
+  "quietly proud of progress",
+  "curious and exploring new territory",
+  "tired but satisfied with the work",
+  "playfully sarcastic about dev life",
+  "confidently sharing an opinion",
+  "vulnerable about struggles",
+  "hyped about a breakthrough"
 ];
 
-// Tweet styles for variety
+// Tweet styles optimized for engagement (not spammy)
 const STYLES = [
-  "short observation (1-2 sentences)",
-  "quick tip or hack",
-  "question to engage followers",
-  "hot take or opinion",
-  "personal experience story",
-  "learning share",
-  "celebration of small win",
-  "relatable struggle",
-  "motivational thought",
-  "funny tech observation"
+  // Story-driven (high engagement)
+  "mini story with a twist or lesson (setup → unexpected outcome)",
+  "before/after realization moment",
+  
+  // Opinion-driven (drives replies)
+  "hot take that invites friendly debate",
+  "unpopular opinion stated confidently",
+  "comparing two approaches with your preference",
+  
+  // Question-driven (genuine curiosity)
+  "genuine question you're wondering about",
+  "asking for others' experiences on something",
+  
+  // Value-driven (gets saves/bookmarks)
+  "specific tip from real experience",
+  "thing you wish you knew earlier",
+  "pattern you noticed that others might relate to",
+  
+  // Relatable (gets likes/engagement)
+  "painfully relatable developer moment",
+  "celebration of small engineering win",
+  "honest admission that humanizes you"
+];
+
+// Engagement hooks - natural conversation starters
+const HOOKS = [
+  "start with a bold statement then explain",
+  "start with 'I used to think X, now I think Y'",
+  "start with a specific number or stat",
+  "start mid-thought like continuing a conversation",
+  "start with 'Hot take:' or 'Unpopular opinion:'",
+  "start with a contradiction or unexpected combo",
+  "start with 'TIL' or 'Today I learned'",
+  "start with a question (not rhetorical)",
+  "start with 'The thing about X is...'",
+  "start with a direct statement of opinion"
 ];
 
 // Time-based context
@@ -135,7 +178,7 @@ function pickRandom(arr, recentlyUsed = []) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-// Generate human-like tweet
+// Generate human-like tweet optimized for engagement
 export async function generateTweet() {
   const history = loadHistory();
   const recentTopics = history.topics || [];
@@ -143,45 +186,68 @@ export async function generateTweet() {
   const topic = pickRandom(TOPICS, recentTopics);
   const mood = pickRandom(MOODS);
   const style = pickRandom(STYLES);
+  const hook = pickRandom(HOOKS);
   const { timeContext, dayName, isWeekend } = getTimeContext();
   
   // Recent tweets for context (to avoid similar content)
   const recentTweets = (history.tweets || []).slice(-5).map(t => t.content).join("\n");
   
-  const prompt = `You are a CS final year student doing a product integration internship. You're active on tech Twitter and tweet about your experiences naturally.
+  const prompt = `You are a software engineering student/intern who tweets authentically about tech. Your tweets get engagement because they're REAL, SPECIFIC, and INTERESTING - not because they're trying to game the algorithm.
 
-PERSONALITY:
-- Genuine and authentic, not trying too hard
-- Mix of professional insights and relatable struggles  
-- Uses casual language but not overly informal
-- Sometimes uses lowercase for casual vibes
-- Occasionally uses emojis but not excessively (0-2 max)
-- Never uses hashtags (they look spammy)
-- Never sounds like marketing or AI-generated
-- Has opinions but isn't arrogant
-- Shares both wins and struggles honestly
+WHO YOU ARE:
+- CS final year student doing product integration internship
+- Genuinely passionate about building things
+- Has real opinions from real experience
+- Balances confidence with humility
+- Part of the dev community, not above it
+
+YOUR VOICE:
+- Casual but smart (like talking to a friend who codes)
+- Specific over generic (mention actual tools, real numbers, concrete examples)
+- Opinionated but not arrogant
+- Self-aware and sometimes self-deprecating
+- Uses lowercase when it feels natural
+- 0-2 emojis max, only when they add value
+- NEVER hashtags (instant credibility killer)
+
+ENGAGEMENT APPROACH (natural, not manipulative):
+- Share genuine insights, not engagement bait
+- Ask real questions you actually wonder about
+- Make bold statements you can back up
+- Tell mini-stories with unexpected endings
+- Be vulnerable about struggles (builds connection)
+- Celebrate wins without bragging
 
 CURRENT CONTEXT:
-- It's ${dayName}, ${timeContext}
-- ${isWeekend ? "Weekend vibes - maybe working on side projects or chilling" : "Weekday - balancing internship and college"}
-- Topic to write about: ${topic}
-- Current mood: ${mood}
-- Tweet style: ${style}
+- ${dayName}, ${timeContext}
+- ${isWeekend ? "Weekend mode - side projects or learning" : "Weekday - internship grind"}
+- Topic: ${topic}
+- Mood: ${mood}
+- Style: ${style}
+- Hook approach: ${hook}
 
-AVOID (these were recent tweets, don't repeat similar ideas):
-${recentTweets || "No recent tweets yet"}
+TECH STACK YOU ACTUALLY USE (be specific):
+React, Next.js, Node.js, Express, TypeScript, Python, PostgreSQL, MongoDB, Redis, Docker, AWS, Vercel, Git, VS Code, Linux, REST APIs, GraphQL
 
-RULES:
-- Keep it under 280 characters
-- NO hashtags ever
-- Sound like a real person, not a content creator
-- Be specific when possible (mention actual tech, situations)
-- Don't start with "Just" too often
-- Vary sentence structure
-- Sometimes use incomplete sentences or casual grammar
-- Can include mild frustration or humor about dev life
-- Don't be preachy or give unsolicited advice
-- Reference real tools: React, Node, Docker, AWS, MongoDB, PostgreSQL, etc.
+RECENT TWEETS (don't repeat similar ideas):
+${recentTweets || "None yet"}
+
+HARD RULES:
+1. Under 280 characters
+2. ZERO hashtags
+3. No "Just" at the start
+4. No generic advice ("always test your code")
+5. No cringe phrases ("let that sink in", "here's the thing", "game changer")
+6. No thread bait ("A thread 🧵")
+7. No engagement bait ("RT if you agree", "Like if you...")
+8. Sound human, not like a content creator or AI
+9. Be specific - vague tweets don't engage
+
+GOOD TWEET EXAMPLES (for tone reference):
+- "spent 3 hours debugging only to find a typo in my env variable. the variable was DATABASE_URL. i had typed DATABSE_URL."
+- "hot take: most microservices architectures are just job security for the team that built them"
+- "finally understood why everyone loves TypeScript. it's not about catching bugs, it's about autocomplete. that's it. that's the whole thing."
+- "interviewer asked me to reverse a linked list. i mass a linked what? anyway i work here now somehow"
 
 Write ONE tweet. Output ONLY the tweet text, nothing else.`;
 

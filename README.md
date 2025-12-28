@@ -89,27 +89,34 @@ npm run post-now -- --yes
 
 ### Content Generation
 
-The AI generates tweets with this personality:
-- CS final year student
-- Product integration intern
-- Shares wins AND struggles
-- Casual but not too informal
-- Uses 0-2 emojis max
-- Never uses hashtags
-- References real tech (React, Node, Docker, AWS, etc.)
+The AI generates tweets optimized for **natural engagement** (not spam):
 
-### Topics Include
+**Personality:**
+- CS final year student / product integration intern
+- Shares genuine wins AND struggles
+- Has opinions backed by experience
+- Casual but smart (like talking to a dev friend)
+- Uses 0-2 emojis max, NEVER hashtags
 
-- Full stack development
-- Product integration work
-- Automation hacks
-- AI/ML thoughts
-- DevOps experiences
-- Internship life
-- Debugging stories
-- Side projects
-- Interview prep
-- And 20+ more...
+**Engagement Strategies (Natural, Not Manipulative):**
+- Mini-stories with unexpected outcomes
+- Hot takes that invite friendly debate
+- Genuine questions you're wondering about
+- Specific tips from real experience
+- Relatable developer moments
+
+### Topics (Tech & Engineering Focused)
+
+- System design decisions & scaling challenges
+- Framework opinions & tech stack choices
+- Debugging stories & production incidents
+- Learning journeys & concepts that clicked
+- Engineering culture & team dynamics
+- Performance wins & automation hacks
+- Career insights & interview experiences
+- Side projects & open source work
+
+**Tech Referenced:** React, Next.js, Node.js, TypeScript, Python, PostgreSQL, MongoDB, Docker, AWS, Vercel, and more...
 
 ## Files
 
@@ -127,13 +134,25 @@ The AI generates tweets with this personality:
 └── .env               # Your credentials (create from template)
 ```
 
-## Tips for Staying Under the Radar
+## 🛡️ Twitter Safety & Best Practices
 
-1. **Don't Post Too Often**: Stick to the 2-day interval
-2. **Vary Your Manual Activity**: Occasionally like, reply, retweet manually
-3. **Engage Authentically**: Reply to comments on your automated tweets
-4. **Monitor Performance**: If engagement drops, review tweet quality
-5. **Keep It Running**: Random timing is key - don't always post at fixed times
+This bot is designed to **avoid getting flagged or banned**:
+
+**Built-in Safety:**
+- ✅ Posts every ~2 days (not spammy frequency)
+- ✅ Random timing with ±6 hour variance
+- ✅ No hashtags (spam signal)
+- ✅ No engagement bait ("RT if you agree")
+- ✅ No repetitive content (tracks history)
+- ✅ Human-like varied content
+- ✅ Specific, authentic voice
+
+**What You Should Do:**
+1. **Engage Manually**: Like, reply, and retweet regularly
+2. **Reply to Comments**: Respond to people who engage with your tweets
+3. **Stay Active**: Don't ONLY use automation
+4. **Monitor Quality**: Check generated tweets occasionally
+5. **Keep It Authentic**: The bot sounds like you, so stay consistent
 
 ## 🚀 Deployment (Render - FREE)
 
