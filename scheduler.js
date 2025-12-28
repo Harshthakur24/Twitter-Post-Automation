@@ -19,7 +19,7 @@ function loadScheduleState() {
     if (existsSync(SCHEDULE_FILE)) {
       return JSON.parse(readFileSync(SCHEDULE_FILE, "utf-8"));
     }
-  } catch (e) {
+  } catch (_e) {
     console.log("Creating new schedule state");
   }
   return { 

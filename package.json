@@ -7,13 +7,26 @@
   "scripts": {
     "start": "node index.js",
     "post-now": "node post-now.js",
-    "test-generate": "node test-generate.js"
+    "test-generate": "node test-generate.js",
+    "test": "node --test ./tests/*.test.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@google/genai": "^0.7.0",
     "dotenv": "^16.4.7",
     "node-cron": "^3.0.3",
     "twitter-api-v2": "^1.22.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "eslint": "^9.17.0",
+    "prettier": "^3.4.2"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }
 

@@ -102,7 +102,7 @@ function loadHistory() {
     if (existsSync(HISTORY_FILE)) {
       return JSON.parse(readFileSync(HISTORY_FILE, "utf-8"));
     }
-  } catch (e) {
+  } catch (_e) {
     console.log("Starting fresh history");
   }
   return { tweets: [], topics: [], lastPosted: null };

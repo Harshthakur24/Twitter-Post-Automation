@@ -1,5 +1,7 @@
 # 🐦 Twitter Auto-Poster
 
+[![CI/CD Pipeline](https://github.com/Harshthakur24/Twitter-Post-Automation/actions/workflows/ci.yml/badge.svg)](https://github.com/Harshthakur24/Twitter-Post-Automation/actions/workflows/ci.yml)
+
 Automated Twitter posting that generates human-like tweets about CS/tech topics. Posts every ~2 days at random times to look natural.
 
 ## Features
@@ -112,6 +114,8 @@ The AI generates tweets with this personality:
 ## Files
 
 ```
+├── .github/workflows/ # CI/CD pipeline
+├── tests/             # Unit tests
 ├── index.js           # Main scheduler loop
 ├── tweet-generator.js # AI tweet generation
 ├── twitter-client.js  # Twitter API wrapper
@@ -119,9 +123,8 @@ The AI generates tweets with this personality:
 ├── post-now.js        # Manual posting
 ├── test-generate.js   # Test tweet generation
 ├── render.yaml        # Render deployment config
-├── tweet-history.json # Posted tweets (auto-created)
-├── schedule-state.json # Schedule state (auto-created)
-└── .env               # Your credentials
+├── eslint.config.js   # Linting configuration
+└── .env               # Your credentials (create from template)
 ```
 
 ## Tips for Staying Under the Radar
@@ -155,6 +158,38 @@ The AI generates tweets with this personality:
 That's it! Your bot will start running immediately.
 
 > ⚠️ **Note**: Free tier workers may spin down after inactivity but will restart on the next scheduled check.
+
+### Setting Up Auto-Deploy
+
+To enable automatic deployment when you push to GitHub:
+
+1. In Render dashboard, go to your service → **Settings**
+2. Copy the **Deploy Hook** URL
+3. In GitHub repo → **Settings** → **Secrets and variables** → **Actions**
+4. Add secret: `RENDER_DEPLOY_HOOK` = your deploy hook URL
+5. Also add: `GEMINI_API_KEY` = your Gemini key (for tests)
+
+Now every push to `main` will automatically deploy! 🚀
+
+## 🧪 CI/CD Pipeline
+
+The GitHub Actions pipeline runs on every push and PR:
+
+| Stage | What it does |
+|-------|--------------|
+| **Lint** | ESLint + Prettier code quality checks |
+| **Security** | `npm audit` for vulnerabilities |
+| **Test** | Unit tests for tweet validation |
+| **Deploy** | Auto-deploys to Render on main branch |
+
+### Run Locally
+
+```bash
+npm run lint        # Check code quality
+npm run lint:fix    # Auto-fix issues
+npm run format      # Format code
+npm test            # Run unit tests
+```
 
 ## Troubleshooting
 
