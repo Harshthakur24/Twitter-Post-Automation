@@ -259,9 +259,12 @@ Write ONE tweet. Output ONLY the tweet text, nothing else.`;
       model: "gemini-2.5-flash",
       contents: [{ role: "user", parts: [{ text: prompt }] }],
       config: {
-        temperature: 0.9, // Higher creativity
+        temperature: 0.9,
         topP: 0.95,
-        maxOutputTokens: 150,
+        maxOutputTokens: 2048,
+        thinkingConfig: {
+          thinkingBudget: 1024,
+        },
       },
     });
 
