@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "post": "node github-action-post.js",
     "post-now": "node post-now.js",
     "test-generate": "node test-generate.js",
     "test": "node --test ./tests/*.test.js",

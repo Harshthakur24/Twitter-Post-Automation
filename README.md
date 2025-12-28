@@ -121,17 +121,17 @@ The AI generates tweets optimized for **natural engagement** (not spam):
 ## Files
 
 ```
-├── .github/workflows/ # CI/CD pipeline
-├── tests/             # Unit tests
-├── index.js           # Main scheduler loop
-├── tweet-generator.js # AI tweet generation
-├── twitter-client.js  # Twitter API wrapper
-├── scheduler.js       # Timing logic
-├── post-now.js        # Manual posting
-├── test-generate.js   # Test tweet generation
-├── render.yaml        # Render deployment config
-├── eslint.config.js   # Linting configuration
-└── .env               # Your credentials (create from template)
+├── .github/workflows/    # GitHub Actions (auto-tweet + CI/CD)
+├── tests/                # Unit tests
+├── index.js              # Main scheduler loop (local/Docker)
+├── github-action-post.js # GitHub Actions entry point
+├── tweet-generator.js    # AI tweet generation
+├── twitter-client.js     # Twitter API wrapper
+├── scheduler.js          # Timing logic
+├── post-now.js           # Manual posting
+├── test-generate.js      # Test tweet generation
+├── eslint.config.js      # Linting configuration
+└── .env                  # Your credentials (create from template)
 ```
 
 ## 🛡️ Twitter Safety & Best Practices
@@ -154,41 +154,67 @@ This bot is designed to **avoid getting flagged or banned**:
 4. **Monitor Quality**: Check generated tweets occasionally
 5. **Keep It Authentic**: The bot sounds like you, so stay consistent
 
-## 🚀 Deployment (Render - FREE)
+## 🚀 Deployment (GitHub Actions - FREE)
 
-**✅ Completely FREE - No credit card required**
+**✅ Completely FREE - No credit card required!**
 
-1. Go to [render.com](https://render.com) and sign up with GitHub
-2. Click **"New +"** → **"Background Worker"**
-3. Connect your GitHub repository
-4. Configure:
-   - **Name**: `twitter-autoposter`
-   - **Runtime**: `Node`
-   - **Build Command**: `npm install`
-   - **Start Command**: `node index.js`
-5. Add Environment Variables:
-   - `TWITTER_API_KEY` = your key
-   - `TWITTER_API_SECRET` = your secret
-   - `TWITTER_ACCESS_TOKEN` = your token
-   - `TWITTER_ACCESS_TOKEN_SECRET` = your token secret
-   - `GEMINI_API_KEY` = your gemini key
-6. Click **"Create Background Worker"**
+Uses GitHub Actions to run the bot on a cron schedule. No server needed!
 
-That's it! Your bot will start running immediately.
+### How It Works
 
-> ⚠️ **Note**: Free tier workers may spin down after inactivity but will restart on the next scheduled check.
+- GitHub Actions runs the bot once per day at varied times
+- Each run: generates tweet → posts → exits
+- Times vary each day to look natural (morning, afternoon, evening)
+- You can also trigger manually anytime
 
-### Setting Up Auto-Deploy
+### Setup Steps
 
-To enable automatic deployment when you push to GitHub:
+1. **Push your code to GitHub** (if not already)
 
-1. In Render dashboard, go to your service → **Settings**
-2. Copy the **Deploy Hook** URL
-3. In GitHub repo → **Settings** → **Secrets and variables** → **Actions**
-4. Add secret: `RENDER_DEPLOY_HOOK` = your deploy hook URL
-5. Also add: `GEMINI_API_KEY` = your Gemini key (for tests)
+2. **Add GitHub Secrets** (your API keys):
+   - Go to your repo → **Settings** → **Secrets and variables** → **Actions**
+   - Click **"New repository secret"** and add these 5 secrets:
 
-Now every push to `main` will automatically deploy! 🚀
+   | Secret Name | Value |
+   |-------------|-------|
+   | `TWITTER_API_KEY` | Your Twitter API key |
+   | `TWITTER_API_SECRET` | Your Twitter API secret |
+   | `TWITTER_ACCESS_TOKEN` | Your Twitter access token |
+   | `TWITTER_ACCESS_TOKEN_SECRET` | Your Twitter access token secret |
+   | `GEMINI_API_KEY` | Your Gemini API key |
+
+3. **Enable GitHub Actions**:
+   - Go to repo → **Actions** tab
+   - Click **"I understand my workflows, go ahead and enable them"**
+
+4. **Test it** (optional):
+   - Go to **Actions** → **Auto Tweet** → **Run workflow** → **Run workflow**
+   - Watch the logs to see your first tweet get posted!
+
+That's it! The bot will now post automatically on schedule. 🎉
+
+### Customizing the Schedule
+
+Edit `.github/workflows/tweet.yml` to change posting times:
+
+```yaml
+schedule:
+  # Format: 'minute hour * * day' (UTC time)
+  # IST = UTC + 5:30
+  - cron: '0 5 * * 1'   # Mon 10:30 AM IST
+  - cron: '30 9 * * 2'  # Tue 3:00 PM IST
+  - cron: '0 15 * * 3'  # Wed 8:30 PM IST
+  - cron: '30 5 * * 4'  # Thu 11:00 AM IST
+  - cron: '30 12 * * 5' # Fri 6:00 PM IST
+  - cron: '0 8 * * 6'   # Sat 1:30 PM IST
+  - cron: '30 15 * * 0' # Sun 9:00 PM IST
+```
+
+### Manual Trigger
+
+Post anytime from GitHub:
+1. Go to **Actions** → **Auto Tweet**
+2. Click **"Run workflow"** → **"Run workflow"**
 
 ## 🧪 CI/CD Pipeline
 

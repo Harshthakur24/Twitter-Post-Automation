@@ -1,0 +1,50 @@
+name: Auto Tweet
+
+on:
+  # Schedule: Posts once per day at varied times (IST)
+  # Cron is in UTC, IST = UTC + 5:30
+  schedule:
+    # Monday 10:30 AM IST = 5:00 UTC
+    - cron: '0 5 * * 1'
+    # Tuesday 3:00 PM IST = 9:30 UTC
+    - cron: '30 9 * * 2'
+    # Wednesday 8:30 PM IST = 15:00 UTC
+    - cron: '0 15 * * 3'
+    # Thursday 11:00 AM IST = 5:30 UTC
+    - cron: '30 5 * * 4'
+    # Friday 6:00 PM IST = 12:30 UTC
+    - cron: '30 12 * * 5'
+    # Saturday 1:30 PM IST = 8:00 UTC
+    - cron: '0 8 * * 6'
+    # Sunday 9:00 PM IST = 15:30 UTC
+    - cron: '30 15 * * 0'
+
+  # Allow manual trigger from GitHub UI
+  workflow_dispatch:
+
+jobs:
+  tweet:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Post Tweet
+        env:
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
+          TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
+          TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
+          TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node github-action-post.js
+
