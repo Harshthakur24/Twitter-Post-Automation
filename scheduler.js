@@ -138,6 +138,15 @@ export function getTimeUntilNextPost() {
   return { hours, minutes, ready: false };
 }
 
+// Format date in IST timezone
+function formatInIST(date) {
+  return new Date(date).toLocaleString("en-IN", {
+    timeZone: "Asia/Kolkata",
+    dateStyle: "medium",
+    timeStyle: "short",
+  });
+}
+
 // Get current schedule status
 export function getScheduleStatus() {
   const state = loadScheduleState();
@@ -147,7 +156,7 @@ export function getScheduleStatus() {
     ...state,
     timeUntil,
     nextScheduledFormatted: state.nextScheduled
-      ? new Date(state.nextScheduled).toLocaleString()
+      ? formatInIST(state.nextScheduled) + " IST"
       : "Not scheduled",
   };
 }

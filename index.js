@@ -11,6 +11,9 @@ import {
 
 config();
 
+// Format time in IST
+const formatIST = (date = new Date()) => date.toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+
 // Health server for Render free tier (Web Service requires a port)
 const PORT = process.env.PORT || 3000;
 http
@@ -39,7 +42,7 @@ const CHECK_INTERVAL = 5 * 60 * 1000;
 // Main posting function
 async function executePost() {
   console.log("\n" + "=".repeat(50));
-  console.log(`🐦 Attempting to post at ${new Date().toLocaleString()}`);
+  console.log(`🐦 Attempting to post at ${formatIST()}`);
   console.log("=".repeat(50));
 
   try {
@@ -124,7 +127,7 @@ async function checkAndPost() {
     if (now.getMinutes() === 0) {
       // Log once per hour
       console.log(
-        `[${now.toLocaleTimeString()}] ⏰ Next post in ${status.timeUntil.hours}h ${status.timeUntil.minutes}m`
+        `[${formatIST(now)}] ⏰ Next post in ${status.timeUntil.hours}h ${status.timeUntil.minutes}m`
       );
     }
   }
