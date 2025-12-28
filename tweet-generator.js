@@ -23,48 +23,48 @@ const TOPICS = [
   "scaling challenge you faced or solved",
   "microservices vs monolith real experience",
   "database choice that surprised you",
-  
+
   // Engineering Hot Takes (drives discussion)
   "unpopular opinion about a popular framework",
   "overrated vs underrated tech tools",
   "things you unlearned as a developer",
   "mistakes that taught you the most",
-  
+
   // Behind the Scenes (authenticity)
   "what your debugging process actually looks like",
   "real cost of technical debt you experienced",
   "production incident story (anonymized)",
   "code review feedback that changed your approach",
-  
+
   // Learning Journey (relatable)
   "concept that finally clicked for you",
   "resource that actually helped you grow",
   "skill gap you're actively working on",
   "tech rabbit hole you went down",
-  
+
   // Engineering Culture
   "what good engineering culture looks like",
   "red flags in engineering teams",
   "collaboration hack that improved your work",
   "documentation opinion from experience",
-  
+
   // Practical Engineering
   "tool or library that saved you hours",
   "automation that was worth building",
   "testing strategy that caught real bugs",
   "performance optimization win",
-  
+
   // Career & Growth
   "lesson from your internship/job",
   "interview experience insight (giving or receiving)",
   "how you approach learning new tech",
   "side project update or learning",
-  
+
   // Developer Life (relatable content)
   "late night debugging realization",
   "moment you felt like a real engineer",
   "imposter syndrome and how you deal with it",
-  "small win worth celebrating"
+  "small win worth celebrating",
 ];
 
 // Moods to vary the tone
@@ -78,7 +78,7 @@ const MOODS = [
   "playfully sarcastic about dev life",
   "confidently sharing an opinion",
   "vulnerable about struggles",
-  "hyped about a breakthrough"
+  "hyped about a breakthrough",
 ];
 
 // Tweet styles optimized for engagement (not spammy)
@@ -86,25 +86,25 @@ const STYLES = [
   // Story-driven (high engagement)
   "mini story with a twist or lesson (setup → unexpected outcome)",
   "before/after realization moment",
-  
+
   // Opinion-driven (drives replies)
   "hot take that invites friendly debate",
   "unpopular opinion stated confidently",
   "comparing two approaches with your preference",
-  
+
   // Question-driven (genuine curiosity)
   "genuine question you're wondering about",
   "asking for others' experiences on something",
-  
+
   // Value-driven (gets saves/bookmarks)
   "specific tip from real experience",
   "thing you wish you knew earlier",
   "pattern you noticed that others might relate to",
-  
+
   // Relatable (gets likes/engagement)
   "painfully relatable developer moment",
   "celebration of small engineering win",
-  "honest admission that humanizes you"
+  "honest admission that humanizes you",
 ];
 
 // Engagement hooks - natural conversation starters
@@ -118,7 +118,7 @@ const HOOKS = [
   "start with 'TIL' or 'Today I learned'",
   "start with a question (not rhetorical)",
   "start with 'The thing about X is...'",
-  "start with a direct statement of opinion"
+  "start with a direct statement of opinion",
 ];
 
 // Time-based context
@@ -126,7 +126,7 @@ function getTimeContext() {
   const hour = new Date().getHours();
   const day = new Date().getDay();
   const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-  
+
   let timeContext = "";
   if (hour >= 5 && hour < 9) timeContext = "early morning coding session";
   else if (hour >= 9 && hour < 12) timeContext = "morning productivity time";
@@ -135,7 +135,7 @@ function getTimeContext() {
   else if (hour >= 18 && hour < 21) timeContext = "evening side project time";
   else if (hour >= 21 || hour < 2) timeContext = "late night coding session";
   else timeContext = "late night/early morning";
-  
+
   return { timeContext, dayName: dayNames[day], isWeekend: day === 0 || day === 6 };
 }
 
@@ -157,7 +157,7 @@ function saveToHistory(tweet, topic) {
   history.tweets.push({
     content: tweet,
     topic: topic,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
   // Keep only last 100 tweets in history
   if (history.tweets.length > 100) {
@@ -173,7 +173,7 @@ function saveToHistory(tweet, topic) {
 
 // Pick random item avoiding recent ones
 function pickRandom(arr, recentlyUsed = []) {
-  const available = arr.filter(item => !recentlyUsed.includes(item));
+  const available = arr.filter((item) => !recentlyUsed.includes(item));
   const pool = available.length > 0 ? available : arr;
   return pool[Math.floor(Math.random() * pool.length)];
 }
@@ -182,16 +182,19 @@ function pickRandom(arr, recentlyUsed = []) {
 export async function generateTweet() {
   const history = loadHistory();
   const recentTopics = history.topics || [];
-  
+
   const topic = pickRandom(TOPICS, recentTopics);
   const mood = pickRandom(MOODS);
   const style = pickRandom(STYLES);
   const hook = pickRandom(HOOKS);
   const { timeContext, dayName, isWeekend } = getTimeContext();
-  
+
   // Recent tweets for context (to avoid similar content)
-  const recentTweets = (history.tweets || []).slice(-5).map(t => t.content).join("\n");
-  
+  const recentTweets = (history.tweets || [])
+    .slice(-5)
+    .map((t) => t.content)
+    .join("\n");
+
   const prompt = `You are a software engineering student/intern who tweets authentically about tech. Your tweets get engagement because they're REAL, SPECIFIC, and INTERESTING - not because they're trying to game the algorithm.
 
 WHO YOU ARE:
@@ -258,23 +261,23 @@ Write ONE tweet. Output ONLY the tweet text, nothing else.`;
       config: {
         temperature: 0.9, // Higher creativity
         topP: 0.95,
-        maxOutputTokens: 150
-      }
+        maxOutputTokens: 150,
+      },
     });
-    
+
     let tweet = response.candidates[0].content.parts[0].text.trim();
-    
+
     // Clean up any quotes the AI might add
-    tweet = tweet.replace(/^["']|["']$/g, '').trim();
-    
+    tweet = tweet.replace(/^["']|["']$/g, "").trim();
+
     // Remove any hashtags that slipped through
-    tweet = tweet.replace(/#\w+/g, '').trim();
-    
+    tweet = tweet.replace(/#\w+/g, "").trim();
+
     // Ensure under 280 chars
     if (tweet.length > 280) {
       tweet = tweet.substring(0, 277) + "...";
     }
-    
+
     return { tweet, topic };
   } catch (error) {
     console.error("Error generating tweet:", error);
@@ -284,4 +287,3 @@ Write ONE tweet. Output ONLY the tweet text, nothing else.`;
 
 // Export for use in other files
 export { saveToHistory, loadHistory };
-

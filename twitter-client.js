@@ -8,7 +8,7 @@ const twitterClient = new TwitterApi({
   appKey: process.env.TWITTER_API_KEY,
   appSecret: process.env.TWITTER_API_SECRET,
   accessToken: process.env.TWITTER_ACCESS_TOKEN,
-  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  accessSecret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
 });
 
 // Post tweet to Twitter
@@ -21,12 +21,12 @@ export async function postTweet(content) {
     return { success: true, id: result.data.id };
   } catch (error) {
     console.error("✗ Failed to post tweet:", error.message);
-    
+
     // Handle rate limits gracefully
     if (error.code === 429) {
       console.log("  Rate limited - will retry later");
     }
-    
+
     return { success: false, error: error.message };
   }
 }
@@ -42,4 +42,3 @@ export async function verifyCredentials() {
     return { success: false, error: error.message };
   }
 }
-

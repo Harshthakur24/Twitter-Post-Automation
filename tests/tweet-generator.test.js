@@ -75,11 +75,10 @@ describe("Environment Setup", () => {
       "TWITTER_ACCESS_TOKEN_SECRET",
       "GEMINI_API_KEY",
     ];
-    
+
     // Just validating the list exists
     assert.strictEqual(requiredVars.length, 5, "Should require 5 environment variables");
   });
 });
 
 console.log("✅ All tests passed!");
-
