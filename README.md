@@ -112,16 +112,16 @@ The AI generates tweets with this personality:
 ## Files
 
 ```
-automation/
-├── index.js          # Main scheduler loop
+├── index.js           # Main scheduler loop
 ├── tweet-generator.js # AI tweet generation
 ├── twitter-client.js  # Twitter API wrapper
 ├── scheduler.js       # Timing logic
-├── post-now.js       # Manual posting
-├── test-generate.js  # Test tweet generation
+├── post-now.js        # Manual posting
+├── test-generate.js   # Test tweet generation
+├── render.yaml        # Render deployment config
 ├── tweet-history.json # Posted tweets (auto-created)
 ├── schedule-state.json # Schedule state (auto-created)
-└── .env              # Your credentials
+└── .env               # Your credentials
 ```
 
 ## Tips for Staying Under the Radar
@@ -132,9 +132,7 @@ automation/
 4. **Monitor Performance**: If engagement drops, review tweet quality
 5. **Keep It Running**: Random timing is key - don't always post at fixed times
 
-## 🚀 Deployment Options
-
-### Option 1: Render (Recommended - FREE Forever)
+## 🚀 Deployment (Render - FREE)
 
 **✅ Completely FREE - No credit card required**
 
@@ -143,11 +141,10 @@ automation/
 3. Connect your GitHub repository
 4. Configure:
    - **Name**: `twitter-autoposter`
-   - **Root Directory**: `automation`
    - **Runtime**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `node index.js`
-5. Add Environment Variables (click "Add Environment Variable"):
+5. Add Environment Variables:
    - `TWITTER_API_KEY` = your key
    - `TWITTER_API_SECRET` = your secret
    - `TWITTER_ACCESS_TOKEN` = your token
@@ -158,74 +155,6 @@ automation/
 That's it! Your bot will start running immediately.
 
 > ⚠️ **Note**: Free tier workers may spin down after inactivity but will restart on the next scheduled check.
-
----
-
-### Option 2: Railway
-
-**Free tier: 500 hours/month**
-
-1. Go to [railway.app](https://railway.app) and sign up with GitHub
-2. Click "New Project" → "Deploy from GitHub repo"
-3. Select your repository and set root to `automation`
-4. Add environment variables in the dashboard
-5. Deploy!
-
----
-
-### Option 3: VPS (DigitalOcean, Linode, etc.)
-
-**~$4-6/month for always-on**
-
-```bash
-# SSH into your server
-ssh user@your-server
-
-# Clone and setup
-git clone your-repo
-cd automation
-npm install
-cp env-template.txt .env
-# Edit .env with your credentials
-
-# Run with PM2
-npm install -g pm2
-pm2 start index.js --name twitter-bot
-pm2 save
-pm2 startup
-```
-
----
-
-### Option 5: Docker (Any Platform)
-
-```bash
-# Build and run locally
-docker build -t twitter-bot .
-docker run -d \
-  --name twitter-bot \
-  -e TWITTER_API_KEY=xxx \
-  -e TWITTER_API_SECRET=xxx \
-  -e TWITTER_ACCESS_TOKEN=xxx \
-  -e TWITTER_ACCESS_TOKEN_SECRET=xxx \
-  -e GEMINI_API_KEY=xxx \
-  -v ./data:/app/data \
-  twitter-bot
-
-# Or use docker-compose
-docker-compose up -d
-```
-
----
-
-### Option 6: Local with PM2
-
-```bash
-npm install -g pm2
-pm2 start index.js --name twitter-bot
-pm2 save
-pm2 startup  # Auto-start on system boot
-```
 
 ## Troubleshooting
 

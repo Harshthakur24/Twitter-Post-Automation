@@ -7,7 +7,6 @@ services:
     runtime: node
     plan: free
     region: oregon
-    rootDir: automation
     buildCommand: npm install
     startCommand: node index.js
     envVars:
