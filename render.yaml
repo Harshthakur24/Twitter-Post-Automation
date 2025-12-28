@@ -1,14 +1,13 @@
-# Render Blueprint - Deploy with "New > Blueprint" on render.com
-# Or manually create a Background Worker with these settings
+# Render Blueprint - Docker Deployment
+# Deploy with "New > Blueprint" on render.com
 
 services:
   - type: worker
     name: twitter-autoposter
-    runtime: node
+    runtime: docker
     plan: free
     region: oregon
-    buildCommand: npm install
-    startCommand: node index.js
+    dockerfilePath: ./Dockerfile
     envVars:
       - key: TWITTER_API_KEY
         sync: false
@@ -22,4 +21,3 @@ services:
         sync: false
       - key: NODE_ENV
         value: production
-
