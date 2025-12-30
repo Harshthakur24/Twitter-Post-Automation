@@ -274,6 +274,10 @@ HARD RULES:
 7. No cringe phrases ("let that sink in", "game changer", "here's the thing")
 8. NO formulaic starts like "Unpopular opinion:" or "Hot take:" - just say it naturally
 9. Be specific - real tools, real numbers, real situations
+10. Make it very human like text...like how other famous creator tweet like.
+11. Make it controversial sometimes...like how other famous creator tweet like.
+12. Make it very engaging and interesting...like how other famous creator tweet like.
+13. Don't use `` okay...only use ' or " only.
 
 BAD TWEETS (never do this):
 - "Unpopular opinion: Monoliths are better" ❌ formulaic, not teaching
