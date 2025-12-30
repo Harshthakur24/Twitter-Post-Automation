@@ -196,6 +196,36 @@ function pickRandom(arr, recentlyUsed = []) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
+// Format tweet with line breaks for cleaner readability
+function formatWithLineBreaks(tweet) {
+  // Skip if tweet is too short (< 80 chars) - no need for breaks
+  if (tweet.length < 80) return tweet;
+
+  // Split by sentence endings (. ! ?)
+  const sentences = tweet.split(/(?<=[.!?])\s+/);
+
+  // If only 1 sentence, no formatting needed
+  if (sentences.length <= 1) return tweet;
+
+  // For 2 sentences: add one line break between them
+  if (sentences.length === 2) {
+    return sentences.join("\n\n");
+  }
+
+  // For 3+ sentences: group intelligently
+  // First sentence alone, then rest together (or split evenly)
+  if (sentences.length === 3) {
+    return sentences[0] + "\n\n" + sentences.slice(1).join(" ");
+  }
+
+  // For 4+ sentences: first sentence, middle grouped, last sentence
+  const first = sentences[0];
+  const middle = sentences.slice(1, -1).join(" ");
+  const last = sentences[sentences.length - 1];
+
+  return first + "\n\n" + middle + "\n\n" + last;
+}
+
 // Generate human-like tweet optimized for engagement
 export async function generateTweet() {
   const history = loadHistory();
@@ -321,6 +351,9 @@ Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Inc
     if (tweet.length > 0) {
       tweet = tweet.charAt(0).toUpperCase() + tweet.slice(1);
     }
+
+    // Add line breaks for cleaner formatting
+    tweet = formatWithLineBreaks(tweet);
 
     // Ensure under 280 chars
     if (tweet.length > 280) {
