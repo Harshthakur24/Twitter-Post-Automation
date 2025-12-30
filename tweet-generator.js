@@ -196,36 +196,6 @@ function pickRandom(arr, recentlyUsed = []) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-// Format tweet with line breaks for cleaner readability
-function formatWithLineBreaks(tweet) {
-  // Skip if tweet is too short (< 80 chars) - no need for breaks
-  if (tweet.length < 80) return tweet;
-
-  // Split by sentence endings (. ! ?)
-  const sentences = tweet.split(/(?<=[.!?])\s+/);
-
-  // If only 1 sentence, no formatting needed
-  if (sentences.length <= 1) return tweet;
-
-  // For 2 sentences: add one line break between them
-  if (sentences.length === 2) {
-    return sentences.join("\n\n");
-  }
-
-  // For 3+ sentences: group intelligently
-  // First sentence alone, then rest together (or split evenly)
-  if (sentences.length === 3) {
-    return sentences[0] + "\n\n" + sentences.slice(1).join(" ");
-  }
-
-  // For 4+ sentences: first sentence, middle grouped, last sentence
-  const first = sentences[0];
-  const middle = sentences.slice(1, -1).join(" ");
-  const last = sentences[sentences.length - 1];
-
-  return first + "\n\n" + middle + "\n\n" + last;
-}
-
 // Generate human-like tweet optimized for engagement
 export async function generateTweet() {
   const history = loadHistory();
@@ -307,23 +277,32 @@ HARD RULES:
 10. Make it very human like text...like how other famous creator tweet like.
 11. Make it controversial sometimes...like how other famous creator tweet like.
 12. Make it very engaging and interesting...like how other famous creator tweet like.
-13. Don't use `` okay...only use ' or " only.
+13. Don't use \`\` okay...only use ' or " only.
+14. USE LINE BREAKS for cleaner formatting - add blank lines between sentences when it improves readability. Tweets with 2+ sentences should have line breaks between them.
 
 BAD TWEETS (never do this):
 - "Unpopular opinion: Monoliths are better" ❌ formulaic, not teaching
 - "Hot take: TypeScript is overrated" ❌ opinion without value
 - "Stack Overflow saved me again" ❌ outdated, not specific
 
-GOOD TEACHING TWEETS (specific, actionable, valuable):
-- "Use Promise.allSettled() instead of Promise.all() when you need all results even if some fail. Saved me from silent failures in API calls."
-- "PostgreSQL tip: Add 'EXPLAIN ANALYZE' before your query to see exactly where it's slow. Found a missing index in 2 minutes."
-- "React re-rendering too much? Wrap your context value in useMemo(). Cut our re-renders by 70% with one change."
-- "Git tip: 'git stash -p' lets you stash specific chunks, not everything. Game changer for messy work-in-progress."
-- "Node.js: Use 'node --inspect' to debug with Chrome DevTools. Way better than console.log everywhere."
-- "TypeScript: Use 'satisfies' keyword to validate types without widening. Keeps autocomplete working perfectly."
-- "Docker tip: Multi-stage builds can cut your image size by 80%. First stage builds, second stage runs."
+GOOD TEACHING TWEETS (with line breaks for readability):
+- "Use Promise.allSettled() instead of Promise.all() when you need all results even if some fail.
 
-Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Include a real tip, pattern, or technique. Start with CAPITAL letter. Output ONLY the tweet.`;
+Saved me from silent failures in API calls."
+
+- "PostgreSQL tip: Add 'EXPLAIN ANALYZE' before your query to see exactly where it's slow.
+
+Found a missing index in 2 minutes."
+
+- "React re-rendering too much?
+
+Wrap your context value in useMemo(). Cut our re-renders by 70% with one change."
+
+- "Git tip: 'git stash -p' lets you stash specific chunks, not everything.
+
+Way better for messy work-in-progress."
+
+Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Include a real tip, pattern, or technique. USE LINE BREAKS between sentences for cleaner formatting. Start with CAPITAL letter. Output ONLY the tweet.`;
 
   try {
     const response = await ai.models.generateContent({
@@ -351,9 +330,6 @@ Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Inc
     if (tweet.length > 0) {
       tweet = tweet.charAt(0).toUpperCase() + tweet.slice(1);
     }
-
-    // Add line breaks for cleaner formatting
-    tweet = formatWithLineBreaks(tweet);
 
     // Ensure under 280 chars
     if (tweet.length > 280) {
