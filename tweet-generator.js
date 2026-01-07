@@ -206,7 +206,7 @@ export async function generateTweet() {
   const style = pickRandom(STYLES);
   const hook = pickRandom(HOOKS);
   const { timeContext, dayName, isWeekend } = getTimeContext();
-  
+
   // Wednesday = Controversial/Rage Bait day for max engagement
   const isWednesday = dayName === "Wednesday";
 
@@ -260,7 +260,9 @@ CURRENT CONTEXT:
 - Mood: ${mood}
 - Style: ${style}
 - Hook approach: ${hook}
-${isWednesday ? `
+${
+  isWednesday
+    ? `
 🔥 WEDNESDAY SPECIAL - CONTROVERSIAL/RAGE BAIT MODE 🔥
 Today is Wednesday - time for a SPICY hot take that gets people arguing in the comments!
 
@@ -287,7 +289,9 @@ STYLE FOR TODAY:
 - State it as FACT not opinion
 - Don't hedge or add "just my opinion"
 - Make it punchy and quotable
-- Invite disagreement without asking for it` : ""}
+- Invite disagreement without asking for it`
+    : ""
+}
 
 TECH STACK YOU ACTUALLY USE (be specific):
 React, Next.js, Node.js, Express, TypeScript, Python, PostgreSQL, MongoDB, Redis, Docker, AWS, Vercel, Git, VS Code, Linux, REST APIs, GraphQL
@@ -333,9 +337,11 @@ Wrap your context value in useMemo(). Cut our re-renders by 70% with one change.
 
 Way better for messy work-in-progress."
 
-${isWednesday 
+${
+  isWednesday
     ? "Write ONE CONTROVERSIAL tweet (30-50 words). Make it SPICY and rage-bait worthy. Say something bold that will get people arguing. Be provocative. USE LINE BREAKS between sentences for cleaner formatting. Start with CAPITAL letter. Output ONLY the tweet."
-    : "Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Include a real tip, pattern, or technique. USE LINE BREAKS between sentences for cleaner formatting. Start with CAPITAL letter. Output ONLY the tweet."}`;
+    : "Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Include a real tip, pattern, or technique. USE LINE BREAKS between sentences for cleaner formatting. Start with CAPITAL letter. Output ONLY the tweet."
+}`;
 
   try {
     const response = await ai.models.generateContent({
