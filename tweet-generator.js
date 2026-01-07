@@ -357,7 +357,10 @@ ${
       },
     });
 
-    let tweet = response.candidates[0].content.parts[0].text.trim();
+    // Find the actual response text (not the thinking part)
+    const parts = response.candidates[0].content.parts;
+    const textPart = parts.find((p) => !p.thought && p.text) || parts[parts.length - 1];
+    let tweet = (textPart.text || "").trim();
 
     // Clean up any quotes the AI might add
     tweet = tweet.replace(/^["']|["']$/g, "").trim();
