@@ -206,6 +206,9 @@ export async function generateTweet() {
   const style = pickRandom(STYLES);
   const hook = pickRandom(HOOKS);
   const { timeContext, dayName, isWeekend } = getTimeContext();
+  
+  // Wednesday = Controversial/Rage Bait day for max engagement
+  const isWednesday = dayName === "Wednesday";
 
   // Recent tweets for context (to avoid similar content)
   const recentTweets = (history.tweets || [])
@@ -257,6 +260,34 @@ CURRENT CONTEXT:
 - Mood: ${mood}
 - Style: ${style}
 - Hook approach: ${hook}
+${isWednesday ? `
+🔥 WEDNESDAY SPECIAL - CONTROVERSIAL/RAGE BAIT MODE 🔥
+Today is Wednesday - time for a SPICY hot take that gets people arguing in the comments!
+
+GOALS FOR TODAY:
+- Post something CONTROVERSIAL that triggers reactions
+- Make people DISAGREE and want to reply
+- Be provocative but not offensive (tech opinions, not personal attacks)
+- Say something bold that most people will have strong feelings about
+- Rage bait style - make devs go "WHAT?! That's so wrong!" or "FINALLY someone said it!"
+
+CONTROVERSIAL TOPICS TO CONSIDER:
+- "Framework X is dead/overrated/better than Y"
+- "This popular tool is actually trash"
+- "Everyone's doing X wrong"
+- "Unpopular opinion that you genuinely believe"
+- "Call out a common practice as stupid"
+- "Gatekeep something or anti-gatekeep aggressively"
+- "Say something elitist or anti-elitist"
+- "Dismiss a popular technology"
+- "Praise something everyone hates"
+
+STYLE FOR TODAY:
+- Be BOLD and unapologetic
+- State it as FACT not opinion
+- Don't hedge or add "just my opinion"
+- Make it punchy and quotable
+- Invite disagreement without asking for it` : ""}
 
 TECH STACK YOU ACTUALLY USE (be specific):
 React, Next.js, Node.js, Express, TypeScript, Python, PostgreSQL, MongoDB, Redis, Docker, AWS, Vercel, Git, VS Code, Linux, REST APIs, GraphQL
@@ -302,7 +333,9 @@ Wrap your context value in useMemo(). Cut our re-renders by 70% with one change.
 
 Way better for messy work-in-progress."
 
-Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Include a real tip, pattern, or technique. USE LINE BREAKS between sentences for cleaner formatting. Start with CAPITAL letter. Output ONLY the tweet.`;
+${isWednesday 
+    ? "Write ONE CONTROVERSIAL tweet (30-50 words). Make it SPICY and rage-bait worthy. Say something bold that will get people arguing. Be provocative. USE LINE BREAKS between sentences for cleaner formatting. Start with CAPITAL letter. Output ONLY the tweet."
+    : "Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Include a real tip, pattern, or technique. USE LINE BREAKS between sentences for cleaner formatting. Start with CAPITAL letter. Output ONLY the tweet."}`;
 
   try {
     const response = await ai.models.generateContent({
@@ -322,6 +355,9 @@ Write ONE teaching tweet (30-50 words). TEACH something specific and useful. Inc
 
     // Clean up any quotes the AI might add
     tweet = tweet.replace(/^["']|["']$/g, "").trim();
+
+    // Replace backticks with single quotes
+    tweet = tweet.replace(/`/g, "'");
 
     // Remove any hashtags that slipped through
     tweet = tweet.replace(/#\w+/g, "").trim();
