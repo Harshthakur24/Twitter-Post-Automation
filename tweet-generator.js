@@ -365,8 +365,8 @@ ${
     // Clean up any quotes the AI might add
     tweet = tweet.replace(/^["']|["']$/g, "").trim();
 
-    // Replace backticks with single quotes
-    tweet = tweet.replace(/`/g, "'");
+    // Replace backticks with double quotes
+    tweet = tweet.replace(/`/g, '"');
 
     // Remove any hashtags that slipped through
     tweet = tweet.replace(/#\w+/g, "").trim();
