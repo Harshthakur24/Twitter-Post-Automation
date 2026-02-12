@@ -209,7 +209,7 @@ async function getTrendingTopic() {
         headers: {
           "User-Agent": "twitter-automation-bot/1.0 (by @harsh_dev_bot)",
         },
-      },
+      }
     );
 
     if (!res.ok) {
